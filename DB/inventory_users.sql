@@ -16,30 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `barang`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `barang`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `barang` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Nama` varchar(100) NOT NULL,
-  `Harga` int(11) NOT NULL,
-  `Jumlah` int(11) NOT NULL,
-  `Gambar` varchar(255) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `barang`
+-- Dumping data for table `users`
 --
 
-LOCK TABLES `barang` WRITE;
-/*!40000 ALTER TABLE `barang` DISABLE KEYS */;
-INSERT INTO `barang` VALUES (1,'Sabun Mandi',5000,40,'coba.jpg'),(2,'Botol Minum ',20000,40,'botol.jpg'),(3,'Gunting',5000,50,'gunting.jpg'),(20,'Headset',500000,2,'headset.jpg'),(22,'Parfum',50000,3,'5ff5f6831236e.jpg');
-/*!40000 ALTER TABLE `barang` ENABLE KEYS */;
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'ssss','$2y$10$rqb.jpI8CBamFicSR6BORuDRgGfq9AHjBYwkLL.p3pQ1SC7uxlepG');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

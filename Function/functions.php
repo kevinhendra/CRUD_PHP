@@ -118,6 +118,49 @@ function edit($data){
        return $row->rowCount();
 }
 
+function register($data){
+        global $conn;
+        //membuat menjadi huruf kecil dan juga menghilangkan backslash
+        $username = strtolower(stripslashes($data["username"]));
+        $password = $conn->quote($data["password"]);
+        $password2 = $conn->quote($data["password2"]);
+
+        //menghapus string kosong
+        if(empty(trim($username))) {
+                echo "<script>
+                        alert('Username tidak boleh spasi');
+                </script>";
+        return false;
+        }
+        //cek username sudah ada belum di DB
+        $query = "Select username FROM user WHERE username = '$username'";
+        if($query){
+                echo "<script>
+                        alert('Username sudah dipakai');
+                </script>";
+                return false;
+        }
+
+        //cek password harus sama
+        if($password !== $password2){
+                echo "<script>
+                        alert('Konfirmasi password tidak sesuai');
+                </script>";
+                return false;
+        }
+        //enkripsi password
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        //tambahkan userbaru kedaalam database
+        $array[] = $username;
+	$array[] = $password;
+        $query = "INSERT INTO users (username,password)
+                        VALUES
+                        (?,?)";
+        $row = $conn->prepare($query);
+        $row->execute($array);
+        // return $row->rowCount();
+}
+
 // function cari($keyword){
 //         $query= "SELECT * FROM barang
 //                 WHERE

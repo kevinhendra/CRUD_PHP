@@ -1,11 +1,22 @@
 <?php
 include '../Function/functions.php';
 if(isset($_POST["login"])){
-        if(login($_POST)>0){
-               echo '<script>alert("Berhasil Membuat User");window.location="../index.php"</script>';
-        }else{
-                $error = $conn->errorInfo();
-                echo $error[2];
+       $username = $_POST["username"];
+       $password = $_POST["password"];
+       $query = ("select * from users where username = ?");
+       $row = $conn->prepare($query);
+       $row->execute(array($username)); 
+       $final = $row->rowCount();
+        //cek user
+        if($final===1){
+                $result = $row->fetch(PDO::FETCH_ASSOC);
+                var_dump($result);
+                var_dump(password_verify($password,$result["password"]));
+                if(password_verify($password,$result["password"])){
+                        ;
+                        header("Location: index.php");
+                        exit;
+                }
         }
 }
 ?>

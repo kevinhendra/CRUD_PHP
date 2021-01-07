@@ -164,19 +164,6 @@ function register($data){
         $row->execute($array);
         return $row->rowCount();
 }
-function login($data){
-        global $conn;
-        $username = $data["username"];
-        $password = $data["password"];
-        $array[] = $username;
-	$array[] = $password;
-        $query = ("Select * FROM users WHERE username = ? and password = ?");
-        $row = $conn->prepare($query);
-        $row ->execute($array);
-        $number_of_rows = $row->fetchColumn();
-        var_dump($number_of_rows);
-
-}
 
 // function cari($keyword){
 //         $query= "SELECT * FROM barang

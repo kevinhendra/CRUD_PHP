@@ -133,10 +133,13 @@ function register($data){
         return false;
         }
         //cek username sudah ada belum di DB
-        $query = "Select username FROM user WHERE username = '$username'";
-        if($query){
-                echo "<script>
-                        alert('Username sudah dipakai');
+        $query = ("Select username FROM users WHERE username = ?");
+        $row = $conn->prepare($query);
+        $row ->execute(array($username));
+        $final = $row->fetch(PDO::FETCH_ASSOC);
+        if($final['username']){
+               echo "<script>
+                        alert('Username Sudah digunakan');
                 </script>";
                 return false;
         }
@@ -158,7 +161,7 @@ function register($data){
                         (?,?)";
         $row = $conn->prepare($query);
         $row->execute($array);
-        // return $row->rowCount();
+        //$row->rowCount();
 }
 
 // function cari($keyword){

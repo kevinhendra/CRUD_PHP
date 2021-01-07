@@ -1,8 +1,8 @@
 <?php
 include '../Function/functions.php';
 if(isset($_POST["register"])){
-        if(!empty(register($_POST))){
-               echo '<script>alert("User baru berhasil ditambahkan");window.location="../index.php"</script>';
+        if(register($_POST)>0){
+                echo '<script>alert("Berhasil Membuat User");window.location="../index.php"</script>';
         }else{
                 $error = $conn->errorInfo();
                 echo $error[2];

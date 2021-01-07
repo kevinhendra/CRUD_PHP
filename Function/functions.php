@@ -134,10 +134,11 @@ function register($data){
         }
         //cek username sudah ada belum di DB
         $query = ("Select username FROM users WHERE username = ?");
-        $row = $conn->prepare($query);
-        $row ->execute(array($username));
-        $final = $row->fetch(PDO::FETCH_ASSOC);
-        if($final['username']){
+        $select = $conn->prepare($query);
+        $select ->execute(array($username));
+        // $final = $select->fetch(PDO::FETCH_ASSOC);
+        $final = $select->rowCount();
+        if($final==1){
                echo "<script>
                         alert('Username Sudah digunakan');
                 </script>";
@@ -161,7 +162,20 @@ function register($data){
                         (?,?)";
         $row = $conn->prepare($query);
         $row->execute($array);
-        //$row->rowCount();
+        return $row->rowCount();
+}
+function login($data){
+        global $conn;
+        $username = $data["username"];
+        $password = $data["password"];
+        $array[] = $username;
+	$array[] = $password;
+        $query = ("Select * FROM users WHERE username = ? and password = ?");
+        $row = $conn->prepare($query);
+        $row ->execute($array);
+        $number_of_rows = $row->fetchColumn();
+        var_dump($number_of_rows);
+
 }
 
 // function cari($keyword){

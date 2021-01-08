@@ -1,4 +1,27 @@
 <?php
+session_start();
+
+//cek cookie
+if(isset($_COOKIE["id"]) && isset($_COOKIE["key"])){
+        $id =$_COOKIE["id"];
+        $key = $_COOKIE["key"];
+
+        //ambil username berdasarkan id
+        $query = ("select * from users where username = ?");
+        $row = $conn->prepare($query);
+        $row->execute(array($id));
+        $result = $row->fetch(PDO::FETCH_ASSOC);
+
+        //cek cookie dan username
+        if($key === hash('sha256',$result["username"])){
+                $_SESSION["login"] = true; 
+        }
+}
+
+if(isset($_SESSION["login"])){
+        header("Location: ../index.php");
+        exit;
+}
 include '../Function/functions.php';
 if(isset($_POST["login"])){
        $username = $_POST["username"];
@@ -11,6 +34,16 @@ if(isset($_POST["login"])){
         if($final===1){
                 $result = $row->fetch(PDO::FETCH_ASSOC);
                 if(password_verify($password,$result["password"])){
+                        //set session
+                        $_SESSION["login"] = true;
+
+                        //cek remember me
+                        if( isset($_POST["remember"])){
+                                //buat cookie
+                                setcookie('acak',$result["id"],time()+3600);
+                                setcookie('key', hash('sha256',$result["username"]),time()+3600);
+                        }
+
                         header("Location: ../index.php");
                         exit;
                 }
@@ -25,11 +58,6 @@ if(isset($_POST["login"])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Halaman Login</title>
-        <style>
-                label{
-                        display :block;
-                }
-        </style>
 </head>
 <body>
         <h1>Halaman Login</h1>
@@ -45,6 +73,10 @@ if(isset($_POST["login"])){
         <li>
                 <label for="password">Password : </label>
                 <input type="password" name="password" id="password" required>
+        </li>
+        <li>
+                <input type="checkbox" name="remember" id="remember">
+                <label for="remember">Remember Me ? </label>
         </li>
         <li>
                 <button type="submit" name="login">Login</button>

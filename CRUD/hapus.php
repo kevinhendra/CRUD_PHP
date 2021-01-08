@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if(!isset($_SESSION["login"])){
+        header("Location: ../user/login.php");
+        exit;
+}
 include '../Function/functions.php';
 $id = $_GET["id"];
 

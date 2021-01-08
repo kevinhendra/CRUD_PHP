@@ -1,4 +1,12 @@
-<?php require 'Function/functions.php';
+<?php 
+session_start();
+
+if(!isset($_SESSION["login"])){
+        header("Location: user/login.php");
+        exit;
+}
+
+require 'Function/functions.php';
 $barang = query("SELECT * FROM barang");
 // if(isset($_POST["cari"])){
 //         $barang = cari($_POST["keyword"]);
@@ -10,6 +18,7 @@ $barang = query("SELECT * FROM barang");
 <title>Halaman Admin</title>
 </head>
 <body>
+<a href="user/logout.php">Logout</a>
 <h1>Daftar Barang</h1>
 <a href="CRUD/tambah.php">Tambah Data</a><br><br>
 <!-- <form action="" method="POST">

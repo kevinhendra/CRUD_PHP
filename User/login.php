@@ -10,12 +10,12 @@ if(isset($_POST["login"])){
         //cek user
         if($final===1){
                 $result = $row->fetch(PDO::FETCH_ASSOC);
-                var_dump($result["password"]);
                 if(password_verify($password,$result["password"])){
                         header("Location: ../index.php");
                         exit;
                 }
         }
+        $error = true;
 }
 ?>
 
@@ -33,6 +33,9 @@ if(isset($_POST["login"])){
 </head>
 <body>
         <h1>Halaman Login</h1>
+        <?php if(isset($error)) :?>
+        <p style="color: red; font-style:italic;">Username/Password Salah</p>
+        <?php endif; ?>
         <form action="" method="post">
         <ul>
         <li>

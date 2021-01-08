@@ -2,7 +2,7 @@
 include '../Function/functions.php';
 if(isset($_POST["login"])){
        $username = $_POST["username"];
-       $password = $_POST["password"];
+       $password = $conn->quote($_POST["password"]);
        $query = ("select * from users where username = ?");
        $row = $conn->prepare($query);
        $row->execute(array($username)); 
@@ -10,11 +10,9 @@ if(isset($_POST["login"])){
         //cek user
         if($final===1){
                 $result = $row->fetch(PDO::FETCH_ASSOC);
-                var_dump($result);
-                var_dump(password_verify($password,$result["password"]));
+                var_dump($result["password"]);
                 if(password_verify($password,$result["password"])){
-                        ;
-                        header("Location: index.php");
+                        header("Location: ../index.php");
                         exit;
                 }
         }
